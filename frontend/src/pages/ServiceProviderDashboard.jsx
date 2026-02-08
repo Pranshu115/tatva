@@ -11,6 +11,7 @@ import {
   Eye
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { getApiUrl } from '../config/api';
 import './Dashboard.css';
 
 const ServiceProviderDashboard = ({ user }) => {
@@ -31,7 +32,7 @@ const ServiceProviderDashboard = ({ user }) => {
   const fetchDashboardData = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/dashboard/service-provider', {
+      const response = await fetch(getApiUrl('/api/dashboard/service-provider'), {
         headers: {
           'Authorization': `Bearer ${token}`
         }

@@ -15,6 +15,7 @@ import {
   Clock,
   CheckCircle
 } from 'lucide-react';
+import { getApiUrl } from '../config/api';
 import './Dashboard.css';
 
 const SupplierDashboard = ({ user }) => {
@@ -39,7 +40,7 @@ const SupplierDashboard = ({ user }) => {
   const fetchDashboardData = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/dashboard/supplier', {
+      const response = await fetch(getApiUrl('/api/dashboard/supplier'), {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -58,7 +59,7 @@ const SupplierDashboard = ({ user }) => {
   const handleAddProduct = async (productData) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/supplier/products', {
+      const response = await fetch(getApiUrl('/api/supplier/products'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -22,6 +22,7 @@ import {
   Ban,
   Save
 } from 'lucide-react';
+import { getApiUrl } from '../config/api';
 import './AdminDashboard.css';
 
 const AdminDashboard = ({ user }) => {
@@ -56,7 +57,7 @@ const AdminDashboard = ({ user }) => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/admin/dashboard', {
+      const response = await fetch(getApiUrl('/api/admin/dashboard'), {
         headers: {
           'Authorization': `Bearer ${token}`
         }

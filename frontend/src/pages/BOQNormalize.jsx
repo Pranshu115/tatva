@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Upload, CheckCircle, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { getApiUrl } from '../config/api';
 import './BOQNormalize.css';
 
 const BOQNormalize = ({ onComplete }) => {
@@ -20,7 +21,7 @@ const BOQNormalize = ({ onComplete }) => {
     formData.append('file', uploadedFile);
 
     try {
-      const res = await fetch('/api/boq/normalize', {
+      const res = await fetch(getApiUrl('/api/boq/normalize'), {
         method: 'POST',
         body: formData
       });

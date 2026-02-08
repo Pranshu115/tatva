@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Check } from 'lucide-react';
+import { getApiUrl } from '../config/api';
 import './CreatePO.css';
 
 const CreatePO = ({ selectedVendors, substitutions }) => {
@@ -12,7 +13,7 @@ const CreatePO = ({ selectedVendors, substitutions }) => {
 
   const groupByVendor = async () => {
     try {
-      const res = await fetch('/api/po/group', {
+      const res = await fetch(getApiUrl('/api/po/group'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ selectedVendors, substitutions })
@@ -26,7 +27,7 @@ const CreatePO = ({ selectedVendors, substitutions }) => {
 
   const handleConfirm = async () => {
     try {
-      await fetch('/api/po/create', {
+      await fetch(getApiUrl('/api/po/create'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ poGroups })
