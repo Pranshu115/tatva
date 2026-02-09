@@ -39,8 +39,10 @@ const BOQNormalize = ({ onComplete }) => {
       alert('Please upload and process a BOQ file first');
       return;
     }
+    // Update parent state
     onComplete(items);
-    navigate('/supplier-select');
+    // Pass items via navigation state as backup
+    navigate('/supplier-select', { state: { items } });
   };
 
   return (

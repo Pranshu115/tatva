@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { TrendingUp, Clock } from 'lucide-react';
 import { getApiUrl } from '../config/api';
 import './VendorSelect.css';
@@ -8,22 +8,26 @@ const VendorSelect = ({ items, onComplete }) => {
   const [itemVendors, setItemVendors] = useState({});
   const [selections, setSelections] = useState({});
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Get items from props or navigation state
+  const itemsToUse = items && items.length > 0 ? items : (location.state?.items || []);
 
   useEffect(() => {
-    if (!items || items.length === 0) {
+    if (!itemsToUse || itemsToUse.length === 0) {
       // Redirect back to BOQ Normalize if no items
       navigate('/boq-normalize');
       return;
     }
     fetchVendors();
-  }, [items, navigate]);
+  }, [itemsToUse, navigate]);
 
   const fetchVendors = async () => {
     try {
       const res = await fetch(getApiUrl('/api/vendors/rank'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items })
+        body: JSON.stringify({ items: itemsToUse })
       });
       const data = await res.json();
       setItemVendors(data.itemVendors);
@@ -41,7 +45,7 @@ const VendorSelect = ({ items, onComplete }) => {
     navigate('/substitution');
   };
 
-  if (!items || items.length === 0) {
+  if (!itemsToUse || itemsToUse.length === 0) {
     return (
       <div className="page">
         <div className="page-header">
@@ -60,7 +64,7 @@ const VendorSelect = ({ items, onComplete }) => {
       </div>
 
       <div className="vendor-list">
-        {items.map((item) => (
+        {itemsToUse.map((item) => (
           <div key={item.id} className="vendor-section">
             <h3 className="item-title">{item.normalizedName}</h3>
             <div className="vendor-options">
@@ -92,7 +96,7 @@ const VendorSelect = ({ items, onComplete }) => {
       <button 
         className="btn-primary btn-large" 
         onClick={handleProceed}
-        disabled={Object.keys(selections).length !== items.length}
+        disabled={Object.keys(selections).length !== itemsToUse.length}
       >
         Continue to Substitutions
       </button>
