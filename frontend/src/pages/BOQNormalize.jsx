@@ -35,8 +35,12 @@ const BOQNormalize = ({ onComplete }) => {
   };
 
   const handleProceed = () => {
+    if (items.length === 0) {
+      alert('Please upload and process a BOQ file first');
+      return;
+    }
     onComplete(items);
-    navigate('/vendor-select');
+    navigate('/supplier-select');
   };
 
   return (

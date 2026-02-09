@@ -10,10 +10,13 @@ const VendorSelect = ({ items, onComplete }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (items.length > 0) {
-      fetchVendors();
+    if (!items || items.length === 0) {
+      // Redirect back to BOQ Normalize if no items
+      navigate('/boq-normalize');
+      return;
     }
-  }, [items]);
+    fetchVendors();
+  }, [items, navigate]);
 
   const fetchVendors = async () => {
     try {
@@ -37,6 +40,17 @@ const VendorSelect = ({ items, onComplete }) => {
     onComplete(selections);
     navigate('/substitution');
   };
+
+  if (!items || items.length === 0) {
+    return (
+      <div className="page">
+        <div className="page-header">
+          <h1>Supplier Selection</h1>
+          <p>No items available. Please go back to BOQ Normalize.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="page">
